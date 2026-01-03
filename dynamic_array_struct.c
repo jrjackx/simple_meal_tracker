@@ -8,14 +8,14 @@ typedef struct{
     size_t capacity;     
 } Numbers;
     
-void add(Numbers *xs);
-void print_array(Numbers *xs);
+void add(Numbers *numbers);
+void print_array(Numbers *numbers);
 
 
 int main(void){
     
     int going = 1;
-    Numbers xs = {0};
+    Numbers numbers = {0};
         
     while(going){
         
@@ -25,15 +25,15 @@ int main(void){
         
         if(menu_select == 3){
             
-            printf("\ngoodbye.");
+            printf("\ngoodbye.\n");
             going = 0;
         }
         
         else if(menu_select == 1){
             
             printf("you chose to add\n\n");
-            add(&xs);
-            print_array(&xs);
+            add(&numbers);
+            print_array(&numbers);
         }
         
         else if(menu_select == 2){
@@ -47,23 +47,23 @@ int main(void){
         }    
     }
     
-    free(xs.items);
-    xs.items = NULL;
-    xs.count = 0;
-    xs.capacity = 0;
+    free(numbers.items);
+    numbers.items = NULL;
+    numbers.count = 0;
+    numbers.capacity = 0;
     
     return 0;
 }
 
 
-void add(Numbers *xs){
+void add(Numbers *numbers){
     
     //starts dynamic array if size is 0 (zero-initialized)
     const int DEFAULT_CAPACITY = 4;
-    if(xs->capacity == 0){
+    if(numbers->capacity == 0){
         
-        xs->capacity = DEFAULT_CAPACITY;
-        xs->items = malloc(xs->capacity * sizeof(int));
+        numbers->capacity = DEFAULT_CAPACITY;
+        numbers->items = malloc(numbers->capacity * sizeof(int));
         printf("new dynamic array created!\n");
     }
     
@@ -73,36 +73,36 @@ void add(Numbers *xs){
     
     //check to see if array must be resized. does so if necessary, then adds new items.
     const size_t RESIZE_VALUE = 2;
-    size_t required_capacity = xs->count + new_nums;
-    if(required_capacity > xs->capacity){
+    size_t required_capacity = numbers->count + new_nums;
+    if(required_capacity > numbers->capacity){
         
-        while(xs->capacity < required_capacity){
+        while(numbers->capacity < required_capacity){
             
-            xs->capacity *= RESIZE_VALUE;
+            numbers->capacity *= RESIZE_VALUE;
         }
         
-        xs->items = realloc(xs->items, xs->capacity * sizeof(int));
-        printf("\nmax capacity reached. resized to %zu.\n", xs->capacity);
+        numbers->items = realloc(numbers->items, numbers->capacity * sizeof(int));
+        printf("\nmax capacity reached. resized to %zu.\n", numbers->capacity);
     }
     
     for(size_t i = 0; i < new_nums; i++){
     
         int hold;
-        printf("\nenter the value of slot %zu: ", xs->count+i);
+        printf("\nenter the value of slot %zu: ", numbers->count+i);
         scanf("%d", &hold);
-        xs->items[xs->count+i] = hold;        
+        numbers->items[numbers->count+i] = hold;        
     }
     
-    xs->count += new_nums;
+    numbers->count += new_nums;
 }
 
 
-void print_array(Numbers *xs){
+void print_array(Numbers *numbers){
 
-    printf("\n\nThe array currently has %zu elements:\n", xs->count);
-    for(size_t i = 0; i < xs->count; i++){
+    printf("\n\nThe array currently has %zu elements:\n", numbers->count);
+    for(size_t i = 0; i < numbers->count; i++){
         
-        printf("%d, ", xs->items[i]);
+        printf("%d, ", numbers->items[i]);
     }
     
     printf("\n");
