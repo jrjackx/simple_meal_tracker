@@ -3,11 +3,15 @@
 #include <stdbool.h>
 #include <string.h>
 
+typedef enum{
+    MAIN_MEAL, SIDE_MEAL, SNACK, DESSERT, BEVERAGE
+}MealType;
+
 typedef struct{
     
     char name[64];
     char description[256];
-    int type; // 0 = MAIN MEAL, 1 = SIDE MEAL, 2 = SNACK, 3 = DESSERT, 4 = BEVERAGE
+    MealType type; // 0 = MAIN MEAL, 1 = SIDE MEAL, 2 = SNACK, 3 = DESSERT, 4 = BEVERAGE
     int cals;    
 }Meal;
 
@@ -102,7 +106,13 @@ Meal create_meal(void){
     int type;
     printf("\nWhat type of meal is this? (0 = main meal, 1 = side meal, 2 = snack, 3 = dessert, 4 = beverage)\n> ");
     scanf("%d", &type);
-    hold.type = type;
+    switch(type){
+        case 0: hold.type = MAIN_MEAL; break;
+        case 1: hold.type = SIDE_MEAL; break;
+        case 2: hold.type = SNACK; break;
+        case 3: hold.type = DESSERT; break;
+        case 4: hold.type = BEVERAGE; break;
+    }
         
     int cals;
     printf("\nHow many calories are in this meal?: ");
