@@ -33,6 +33,7 @@ void add_entry(Entries *entries);
 void print_array(Entries *entries);
 
 
+
 int main(void){
     
     int running = true;
@@ -106,13 +107,11 @@ Meal create_meal(void){
     int type;
     printf("\nWhat type of meal is this? (0 = main meal, 1 = side meal, 2 = snack, 3 = dessert, 4 = beverage)\n> ");
     scanf("%d", &type);
-    switch(type){
-        case 0: hold.type = MAIN_MEAL; break;
-        case 1: hold.type = SIDE_MEAL; break;
-        case 2: hold.type = SNACK; break;
-        case 3: hold.type = DESSERT; break;
-        case 4: hold.type = BEVERAGE; break;
+    while (type < 0 || type > 4) {
+        printf("Invalid. Enter 0-4: ");
+        scanf("%d", &type);
     }
+    hold.type = type;
         
     int cals;
     printf("\nHow many calories are in this meal?: ");
