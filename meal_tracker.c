@@ -47,15 +47,29 @@ int main(void){
     Entries entries = {0};
     entries.capacity = ARRAY_DEFAULT_CAPACITY;
     entries.entries_array = malloc(entries.capacity * sizeof(Entry));
+    if(!entries.entries_array){
+        
+        fprintf(stderr, "error: starting memory allocation failed\n");
+        return 1;
+    }
     read_file(&entries);
         
     while(running){
         
         int menu_select;
-        printf("select: 1 to add entries, 2 to write data, or 3 to quit.\n> ");
+        printf("select: 1 to add new entries, 2 to view the entries, or 3 to quit.\n> "); //TODO checks times. prints out entries added on current day.
         scanf("%d", &menu_select);
         
         if(menu_select == 3){
+            
+            system("clear");            
+            char write;
+            getchar();
+            printf("\nwould you like to write changes? [Y/n]: ");
+            scanf("%c", &write);
+            if(write == 'y' || write == 'Y'){
+                write_changes(&entries);
+            }
             
             printf("\ngoodbye.\n");
             running = false;
@@ -67,19 +81,24 @@ int main(void){
             printf("you chose to add a new food.\n\n");
             add_entry(&entries);
             
-            system("clear");
-            print_array(&entries);
+            Entry new_entry = entries.entries_array[entries.count-1];
+            printf("new food added: \n");
+            printf("\n%s: %d cals.\ndescription: %s\ntime: %d\n\n",
+            new_entry.meal.name, 
+            new_entry.meal.cals, 
+            new_entry.meal.description,
+            new_entry.time);
         }
         
         else if(menu_select == 2){
             
-            printf("Writing new data: \n");
+            system("clear");
             print_array(&entries);
-            write_changes(&entries);
         }
         
         else{
-            
+        
+            system("clear");
             printf("invalid selection.\n\n");
         }    
     }
@@ -100,7 +119,7 @@ Meal create_meal(void){
         
     getchar();
     
-    printf("\nEnter the name of the meal: ");
+    printf("\nenter the name of the meal: ");
     fgets(buffer, sizeof(buffer), stdin);
     buffer[strcspn(buffer, "\n")] = '\0';
     strncpy(hold.name, buffer, sizeof(hold.name) - 1);
@@ -108,7 +127,7 @@ Meal create_meal(void){
         
     buffer[0] = '\0'; 
         
-    printf("\nEnter the description of the meal: ");
+    printf("\nenter the description of the meal: ");
     fgets(buffer, sizeof(buffer), stdin);
     buffer[strcspn(buffer, "\n")] = '\0';
     strncpy(hold.description, buffer, sizeof(hold.description) - 1);
@@ -117,16 +136,16 @@ Meal create_meal(void){
     buffer[0] = '\0';
         
     int type;
-    printf("\nWhat type of meal is this? (0 = main meal, 1 = side meal, 2 = snack, 3 = dessert, 4 = beverage)\n> ");
+    printf("\nwhat type of meal is this? (0 = main meal, 1 = side meal, 2 = snack, 3 = dessert, 4 = beverage)\n> ");
     scanf("%d", &type);
     while (type < 0 || type > 4) {
-        printf("Invalid. Enter 0-4: ");
+        printf("invalid. Enter 0-4: ");
         scanf("%d", &type);
     }
     hold.type = type;
         
     int cals;
-    printf("\nHow many calories are in this meal?: ");
+    printf("\nhow many calories are in this meal?: ");
     scanf("%d", &cals);
     hold.cals = cals;
     
@@ -148,8 +167,12 @@ void add_entry(Entries *entries){
             entries->capacity *= ARRAY_RESIZE_VALUE;
         }
         
-        entries->entries_array = realloc(entries->entries_array, entries->capacity * sizeof(Entry));
-        printf("\nmax capacity reached. resized to %zu.\n", entries->capacity);
+        Entry *temp = realloc(entries->entries_array, entries->capacity * sizeof(Entry));
+        if(!temp){
+            fprintf(stderr, "error: memory reallocation failed\n");
+            return;
+        }       
+        entries->entries_array = temp;
     }
     
     for(size_t i = 0; i < new_appends; i++){
@@ -168,7 +191,7 @@ void add_entry(Entries *entries){
 
 void print_array(Entries *entries){
 
-    printf("\nThe array currently has %zu elements:\n", entries->count);
+    printf(" \nThe array currently has %zu elements:\n", entries->count);
     for(size_t i = 0; i < entries->count; i++){
         
         printf("\n%s: %d cals.\ndescription: %s\ntime: %d\n",
@@ -230,7 +253,12 @@ void read_file(Entries *entries){
             if(entries->count >= entries->capacity){
                 
                 entries->capacity *= ARRAY_RESIZE_VALUE;
-                entries->entries_array = realloc(entries->entries_array, entries->capacity * sizeof(Entry));
+                Entry *temp = realloc(entries->entries_array, entries->capacity * sizeof(Entry));
+                if(!temp){
+                    fprintf(stderr, "error: memory reallocation failed\n");
+                    return;
+                }       
+                entries->entries_array = temp;
             }
             
             entries->entries_array[entries->count++] = temp_entry;
@@ -238,7 +266,6 @@ void read_file(Entries *entries){
     
         fclose(file_food_entries);
         printf("read from file successfully.\n");
-        print_array(entries);
     }
 }
 
