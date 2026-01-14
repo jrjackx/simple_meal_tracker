@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
+#include <time.h>
 
 
 typedef enum{
@@ -19,7 +20,7 @@ typedef struct{
 typedef struct{
 
     Meal meal;
-    int time; //TODO will need to be updated for time.h
+    time_t time;
 }Entry;
 
 typedef struct{
@@ -35,8 +36,8 @@ void print_array(Entries *entries);
 void write_changes(Entries *entries);
 void read_file(Entries *entries);
 
-const char* ENTRY_FORMAT_OUT = "(%d|%s|%s|%d|%d)\n"; //TODO check this, change to reflect value from time.h.
-const char* ENTRY_FORMAT_IN = "(%d|%65[^|]|%257[^|]|%d|%d)\n";
+const char* ENTRY_FORMAT_OUT = "(%ld|%s|%s|%d|%d)\n";
+const char* ENTRY_FORMAT_IN = "(%ld|%65[^|]|%257[^|]|%d|%d)\n";
 const int ARRAY_DEFAULT_CAPACITY = 4;
 const size_t ARRAY_RESIZE_VALUE = 2;
 
@@ -56,7 +57,7 @@ int main(void){
         
     while(running){
         
-        int menu_select;
+        int menu_select; //TODO make view entries more robust. shows overview information, allows user to select for more detailed info.
         printf("select: 1 to add new entries, 2 to view the entries, or 3 to quit.\n> "); //TODO checks times. prints out entries added on current day.
         scanf("%d", &menu_select);
         
@@ -82,12 +83,14 @@ int main(void){
             add_entry(&entries);
             
             Entry new_entry = entries.entries_array[entries.count-1];
-            printf("new food added: \n");
-            printf("\n%s: %d cals.\ndescription: %s\ntime: %d\n\n",
+            char *new_entry_time = ctime(&new_entry.time);
+            
+            printf("new food added: \n"); //TODO this will be removed when the program displays today's entries automatically in print_array
+            printf("\n%s: %d cals.\ndescription: %s\ntime: %s\n\n",
             new_entry.meal.name, 
             new_entry.meal.cals, 
             new_entry.meal.description,
-            new_entry.time);
+            new_entry_time);
         }
         
         else if(menu_select == 2){
@@ -181,7 +184,7 @@ void add_entry(Entries *entries){
         
         Entry entry;
         entry.meal = hold;
-        entry.time = 1; //TODO implement time.h
+        entry.time = time(NULL);
         entries->entries_array[entries->count+i] = entry; 
     }
     
@@ -190,15 +193,18 @@ void add_entry(Entries *entries){
 
 
 void print_array(Entries *entries){
-
+    
     printf(" \nThe array currently has %zu elements:\n", entries->count);
     for(size_t i = 0; i < entries->count; i++){
         
-        printf("\n%s: %d cals.\ndescription: %s\ntime: %d\n",
+        time_t now = now = entries->entries_array[i].time;;
+        char *string_now = ctime(&now);        
+        
+        printf("\n%s: %d cals.\ndescription: %s\ntime: %s\n",
         entries->entries_array[i].meal.name, 
         entries->entries_array[i].meal.cals, 
         entries->entries_array[i].meal.description,
-        entries->entries_array[i].time);
+        string_now);
     }
     
     printf("\n");
@@ -206,8 +212,6 @@ void print_array(Entries *entries){
 
 
 void write_changes(Entries *entries){
-
-    //const char* ENTRY_FORMAT_OUT = "(%d|%s|%s|%d|%d)\n"; TODO check this, change to reflect value from time.h.
     
     FILE *file_food_entries;
     file_food_entries = fopen("food_entries.txt", "w");
