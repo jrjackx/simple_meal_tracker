@@ -18,4 +18,4 @@ BUILD INSTRUCTIONS:
 - make build directory, enter said directory
 - run command 'CMake ..'
 - run command 'make'
-- done! 
+- done! run the program using ./meal_tracker
