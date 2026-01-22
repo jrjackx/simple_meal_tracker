@@ -10,4 +10,5 @@ add_executable(meal_tracker
     meal_tracker.c
     meal_io.c
     array_manip.c
+    array_display.c
 )
