@@ -4,7 +4,7 @@ project(Meal_Tracker)
 set(CMAKE_C_STANDARD 23)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
-add_compile_options(-Wall -Wextra -pedantic)
+add_compile_options(-Wall -Wextra -pedantic -g)
 
 add_executable(meal_tracker
     meal_tracker.c

@@ -42,6 +42,7 @@ Meal create_meal(void){
     scanf("%d", &cals);
     hold.cals = cals;
     
+    system("clear");
     return hold;
 }
 

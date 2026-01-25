@@ -3,7 +3,12 @@
 
 #include "types.h"
 
-void print_array_verbose(Entries *entries, ArrayFilter filter);
+typedef enum{
+    SKIP_OK, DONT_SKIP_OK
+}Skip;
+
+void print_array_verbose(Entries *entries, ArrayFilter filter, Skip skip_ok);
+void print_array_concise(Entries *entries, ArrayFilter filter, Skip skip_ok);
 
 #endif
 
