@@ -1,9 +1,6 @@
 #include "types.h"
 #include "meal_io.h"
 
-#include <stdlib.h>
-#include <stdio.h>
-
 
 void write_changes(Entries *entries){
     

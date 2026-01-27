@@ -5,6 +5,8 @@
 #define ARRAY_DEFAULT_CAPACITY 4;
 
 #include <time.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 typedef enum{
     MAIN_MEAL, SIDE_MEAL, SNACK, DESSERT, BEVERAGE
@@ -34,6 +36,15 @@ typedef struct{
     size_t count;
     size_t capacity;     
 }Entries;
+
+static inline void clear_screen(void){
+    
+    #ifdef _WIN32
+        system("cls");
+    #else
+        system("clear");
+    #endif
+}
 
 
 #endif

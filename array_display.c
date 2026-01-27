@@ -1,12 +1,10 @@
-#include <stdio.h>
-#include <stdlib.h>
-
 #include "types.h"
 #include "array_display.h"
 
+
 void print_array_verbose(Entries *entries, ArrayFilter filter, Skip skip_ok){
     
-    if(skip_ok == DONT_SKIP_OK){system("clear");}
+    if(skip_ok == DONT_SKIP_OK){clear_screen();}
     
     int total_cals = 0;
     
@@ -61,14 +59,14 @@ void print_array_verbose(Entries *entries, ArrayFilter filter, Skip skip_ok){
         puts("\npress any key to continue.");
         getchar();
         scanf("%c",&ok);
-        system("clear");
+        clear_screen();
     }
     
 }
 
 void print_array_concise(Entries *entries, ArrayFilter filter, Skip skip_ok){
 
-    if(skip_ok == DONT_SKIP_OK){system("clear");}
+    if(skip_ok == DONT_SKIP_OK){clear_screen();}
     
     int total_cals = 0;
     
@@ -109,7 +107,7 @@ void print_array_concise(Entries *entries, ArrayFilter filter, Skip skip_ok){
         puts("\npress any key to continue.");
         getchar();
         scanf("%c",&ok);
-        system("clear");
+        clear_screen();
     }
 }
 

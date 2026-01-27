@@ -3,8 +3,6 @@
 #include "array_manip.h"
 #include "array_display.h"
 
-#include <stdlib.h>
-#include <stdio.h>
 
 int main(void){
     
@@ -24,12 +22,12 @@ int main(void){
         int menu_select; //TODO make view entries more robust. shows overview information, allows user to select for more detailed info.
         printf("The foods you have entered today are:");
         print_array_verbose(&entries, DAY, SKIP_OK);
-        printf("select: 1 to add new entries, 2 to view the entries, or 3 to quit.\n> "); //TODO checks times. prints out entries added on current day.
+        printf("select: 1 to add new entries, 2 to view all entries, or 3 to quit.\n> "); //TODO checks times. prints out entries added on current day.
         scanf("%d", &menu_select);
         
         if(menu_select == 3){
             
-            system("clear");            
+            clear_screen();            
             char write;
             getchar();
             printf("\nwould you like to write changes? [Y/n]: ");
@@ -44,7 +42,7 @@ int main(void){
         
         else if(menu_select == 1){
             
-            system("clear");
+            clear_screen();
             puts("you chose to add a new food.\n");
             add_entry(&entries);
         }
@@ -56,7 +54,7 @@ int main(void){
         
         else{
         
-            system("clear");
+            clear_screen();
             puts("invalid selection.\n\n");
         }    
     }
