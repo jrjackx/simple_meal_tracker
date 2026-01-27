@@ -2,8 +2,6 @@
 #include "array_manip.h"
 
 #include <string.h>
-#include <stdlib.h>
-#include <stdio.h>
 
 Meal create_meal(void){
     
@@ -42,7 +40,7 @@ Meal create_meal(void){
     scanf("%d", &cals);
     hold.cals = cals;
     
-    system("clear");
+    clear_screen();
     return hold;
 }
 
