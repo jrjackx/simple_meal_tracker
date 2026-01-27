@@ -4,6 +4,5 @@
 
 Meal create_meal();
 void add_entry(Entries *entries);
-void print_array(Entries *entries);
 
 #endif

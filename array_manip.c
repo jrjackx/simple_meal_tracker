@@ -42,6 +42,7 @@ Meal create_meal(void){
     scanf("%d", &cals);
     hold.cals = cals;
     
+    system("clear");
     return hold;
 }
 
@@ -79,23 +80,4 @@ void add_entry(Entries *entries){
     }
     
     entries->count += new_appends;
-}
-
-
-void print_array(Entries *entries){
-    
-    printf(" \nThe array currently has %zu elements:\n", entries->count);
-    for(size_t i = 0; i < entries->count; i++){
-        
-        time_t now = now = entries->entries_array[i].time;;
-        char *string_now = ctime(&now);        
-        
-        printf("\n%s: %d cals.\ndescription: %s\ntime: %s\n",
-        entries->entries_array[i].meal.name, 
-        entries->entries_array[i].meal.cals, 
-        entries->entries_array[i].meal.description,
-        string_now);
-    }
-    
-    printf("\n");
 }

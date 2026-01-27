@@ -10,6 +10,10 @@ typedef enum{
     MAIN_MEAL, SIDE_MEAL, SNACK, DESSERT, BEVERAGE
 }MealType;
 
+typedef enum{
+    NO_FILTER, DAY, WEEK, MONTH, YEAR
+}ArrayFilter;
+
 typedef struct{
     
     char name[64];

@@ -63,6 +63,6 @@ void read_file(Entries *entries){
         }
     
         fclose(file_food_entries);
-        printf("read from file successfully.\n");
+        printf("read from file successfully.\n\n");
     }
 }

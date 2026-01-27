@@ -1,6 +1,7 @@
 #include "types.h"
 #include "meal_io.h"
 #include "array_manip.h"
+#include "array_display.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -21,6 +22,8 @@ int main(void){
     while(running){
         
         int menu_select; //TODO make view entries more robust. shows overview information, allows user to select for more detailed info.
+        printf("The foods you have entered today are:");
+        print_array_verbose(&entries, DAY, SKIP_OK);
         printf("select: 1 to add new entries, 2 to view the entries, or 3 to quit.\n> "); //TODO checks times. prints out entries added on current day.
         scanf("%d", &menu_select);
         
@@ -35,37 +38,26 @@ int main(void){
                 write_changes(&entries);
             }
             
-            printf("\ngoodbye.\n");
+            puts("\ngoodbye.\n");
             running = false;
         }
         
         else if(menu_select == 1){
             
             system("clear");
-            printf("you chose to add a new food.\n\n");
+            puts("you chose to add a new food.\n");
             add_entry(&entries);
-            
-            Entry new_entry = entries.entries_array[entries.count-1];
-            char *new_entry_time = ctime(&new_entry.time);
-            
-            printf("new food added: \n"); //TODO this will be removed when the program displays today's entries automatically in print_array
-            printf("\n%s: %d cals.\ndescription: %s\ntime: %s\n\n",
-            new_entry.meal.name, 
-            new_entry.meal.cals, 
-            new_entry.meal.description,
-            new_entry_time);
         }
         
         else if(menu_select == 2){
             
-            system("clear");
-            print_array(&entries);
+            print_array_concise(&entries, NO_FILTER, DONT_SKIP_OK);            
         }
         
         else{
         
             system("clear");
-            printf("invalid selection.\n\n");
+            puts("invalid selection.\n\n");
         }    
     }
     
